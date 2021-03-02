@@ -1,20 +1,58 @@
 import React from 'react';
 import './cart-table.scss';
+import {connect} from "react-redux";
+import {deleteItemFromCart} from "../../actions";
+import withRestoService from "../hoc";
 
-const CartTable = () => {
+const CartTable = ({cart, deleteItemFromCart, RestoService}) => {
+    const cartList = cart.map(item => {
+        const {title, price, url, id} = item;
+
+        return (
+            <div className="cart__item" key={id}>
+                <img src={url} className="cart__item-img" alt={title}></img>
+                <div className="cart__item-title">{title}</div>
+                <div className="cart__item-price">{price}$</div>
+                <div className="cart__close" onClick={() => deleteItemFromCart(id)}>&times;</div>
+            </div>
+        )
+    });
+
+
+    const cartNotation = cartList.length > 0 ? "" : (<div className="cart__notification">Ваша корзина пуста</div>);
+    const setOrderButton = cartList.length > 0 ? (<button className="cart__set-order" onClick={() => {RestoService.setOrder(generateOrder(cart))}}>Оформить заказ</button>) : "";
+
     return (
-        <>
+        <div>
             <div className="cart__title">Ваш заказ:</div>
             <div className="cart__list">
-                <div className="cart__item">
-                    <img src="https://static.1000.menu/img/content/21458/-salat-cezar-s-kr-salat-cezar-s-krevetkami-s-maionezom_1501173720_1_max.jpg" className="cart__item-img" alt="Cesar salad"></img>
-                    <div className="cart__item-title">Cesar salad</div>
-                    <div className="cart__item-price">12$</div>
-                    <div className="cart__close">&times;</div>
-                </div>
+                {cartNotation}
+                {cartList}
             </div>
-        </>
+            {setOrderButton}
+        </div>
     );
 };
 
-export default CartTable;
+const generateOrder = (items) => {
+    const newOrder = items.map(item => {
+        return {
+            id: item.id,
+            price: item.price, 
+        }
+    })
+    
+    return newOrder;
+}
+
+const mapStateToProps = (state) => {
+    return {
+        cart: state.cart
+    }
+}
+const mapDispatchToProps = {
+    deleteItemFromCart
+}
+
+
+export default withRestoService()(connect(mapStateToProps, mapDispatchToProps)(CartTable));

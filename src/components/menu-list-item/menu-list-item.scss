@@ -14,6 +14,10 @@
         margin-bottom: 20px;
         text-align: center;
     }
+    &__link {
+        color: inherit;
+        text-decoration: none;
+    }
     &__img {
         width: calc(100% + 40px);
         transform: translateX(-20px);
@@ -22,12 +26,16 @@
         margin-bottom: 20px;
     }
     &__category, &__price {
+        display: flex;
         font-size: 18px;
         font-weight: 300;
         margin-bottom: 10px;
         span {
             font-weight: 700;
         }
+    }
+    &__icon {
+        width: 20px;
     }
     &__btn {
         width: 150px;

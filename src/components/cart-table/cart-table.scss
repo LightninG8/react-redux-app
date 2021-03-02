@@ -46,4 +46,23 @@
         border: 1px solid #fff;
         cursor: pointer;
     }
+    &__notification {
+        color: #ffffff;
+        font-size: 28px;
+        padding-top: 30px;
+        text-align: center;
+    }
+    &__set-order {
+        display: block;
+        margin: 0 auto;
+        margin-top: 40px;
+        padding: 0 10px;
+        height: 40px;
+        border: none;
+        background-color: #29a745;
+        border-radius: 4px;
+        color: #fff;
+        font-size: 16px;
+        cursor: pointer;
+    }
 }
