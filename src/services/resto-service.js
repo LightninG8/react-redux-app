@@ -1,5 +1,5 @@
 export default class RestoService {
-    _apiBase = "http://localhost:3004";
+    _apiBase = "http://localhost:8000";
 
     getResource = async (url) => {
         const res = await fetch(`${this._apiBase}${url}`);
@@ -22,7 +22,7 @@ export default class RestoService {
         return item;
     }
     setOrder = async (order) => {
-        const number = this.getOrderNumber();
+        const number = await this.getOrderNumber();
 
         const newOrder = {
             id: number,
@@ -31,13 +31,14 @@ export default class RestoService {
 
         console.log(newOrder);
 
-        const res = await fetch(`${this._apiBase}/orders`, {
+        const res = await fetch(`${this._apiBase}/orders/`, {
             method: "POST",
             headers: {
-                "Content-type": "application/json;charset-utf-8"},
+                "Content-Type": "application/json;charset=utf-8"},
             body: JSON.stringify(newOrder)
         });
-
+   
+        
         if (!res.ok) {
             throw new Error(`Не получилось сделать заказ №${number}`);
         }

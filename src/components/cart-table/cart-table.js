@@ -6,13 +6,15 @@ import withRestoService from "../hoc";
 
 const CartTable = ({cart, deleteItemFromCart, RestoService}) => {
     const cartList = cart.map(item => {
-        const {title, price, url, id} = item;
+        const {title, price, url, id, count} = item;
 
+        const totalPriceToItem = count ? `${price}$ x ${count} = ${price * count}$` : `${price}`;
+    
         return (
             <div className="cart__item" key={id}>
                 <img src={url} className="cart__item-img" alt={title}></img>
                 <div className="cart__item-title">{title}</div>
-                <div className="cart__item-price">{price}$</div>
+                <div className="cart__item-price">{totalPriceToItem}</div>
                 <div className="cart__close" onClick={() => deleteItemFromCart(id)}>&times;</div>
             </div>
         )
@@ -39,6 +41,7 @@ const generateOrder = (items) => {
         return {
             id: item.id,
             price: item.price, 
+            count: item.count
         }
     })
     

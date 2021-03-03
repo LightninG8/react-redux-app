@@ -33,12 +33,38 @@ const reducer = (state = initialState, action) => {
             const id = action.payload;
             const item = state.menu.find(item => item.id === id);
             const price = item.price;
+            
+            const itemInd = state.cart.findIndex(item => item.id === id);
 
+            if (itemInd >= 0) {
+                const newItem = {
+                    ...item,
+                    count: state.cart[itemInd].count + 1,
+                }
+                
+                
+                return {
+                    ...state,
+                    cart: [
+                        ...state.cart.slice(0, itemInd),
+                        newItem,
+                        ...state.cart.slice(itemInd + 1)
+                    ],
+                    totalPrice: state.totalPrice + price,
+                }
+            }
+
+
+            // Товара раньше не было в корзине
+            const newItem = {
+                ...item,
+                count: 1,
+            }
             return {
                 ...state,
                 cart: [
                     ...state.cart,
-                    item
+                    newItem
                 ],
                 totalPrice: state.totalPrice + price,
             }
